@@ -10,7 +10,7 @@ export async function GET(__, {params}){
     }
 
     const product = await getRestaurantProductById(productId)
-    if(!productId){
+    if(!product){
       return NextResponse.json({error: "product not found"},{status: 404})
     }
 

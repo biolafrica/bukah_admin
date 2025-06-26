@@ -129,8 +129,21 @@ export function getRestaurantBranchById(branchId){
   return repos.branches.findById(branchId)
 }
 
-export function getRestaurantCustomers({filters = {restaurant_id :restaurantId}, count = true, range= [0,9]}){
-  return repos.customers.findAll({filters, count, range})
+export function getRestaurantCustomers(restaurantId,{searchTerm = '', 
+  type = null, 
+  dateRange = null, 
+  range = [0, 9]
+}){
+  const filters = {restaurant_id : restaurantId};
+  if (type === 'registered') filters.is_registered = true
+  if (type === 'guest') filters.is_registered = false
+  if (dateRange) {
+    filters.created_at = { start: dateRange.start, end: dateRange.end }
+  }
+
+  const search = searchTerm ? ['name', searchTerm] : [];
+
+  return repos.customers.findAll({filters, search, range})
 }
 
 export function getRestaurantCustomerById(customerId){
