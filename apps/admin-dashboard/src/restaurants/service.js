@@ -13,12 +13,29 @@ export function addRestaurantOwner(payload){
   return repos.users.create(payload)
 }
 
-export function getRestaurantUsers({filters = {restaurant_id :restaurantId}, count = true, range= [0,9]}){
-  return repos.users.findAll({filters, count, range})
+export function getRestaurantUsers(restaurantId, {
+  searchTerm = "", 
+  branchId = null, 
+  isActive = null, 
+  role= null , 
+  range= [0,9]
+}={}){
+  const filters = {restaurant_id : restaurantId}
+  if (branchId) filters.branch_id = branchId
+  if (isActive !== null) filters.is_active = isActive
+  if (role) filters.role = role
+
+  const search = searchTerm ? ["name", searchTerm] :[];
+
+  const  joins = { branch: 'branches(name, id)' }
+
+  return repos.users.findAll({filters,range, joins, search})
 }
 
 export function getRestaurantUserById(userId){
-  return repos.users.findById(userId)
+
+  const  joins = { branch: 'branches(name, id)' }
+  return repos.users.findById(userId, joins)
 }
 
 export function addRestaurant(payload){
@@ -46,13 +63,33 @@ export function getRestaurantOrderById(orderId){
   return repos.orders.findById(orderId)
 }
 
-export function getRestaurantProducts(restaurantId, {count = true, range= [0,9]}={}){
-  const filters = {restaurant_id : restaurantId}
-  return repos.products.findAll({filters, count, range})
+export function getRestaurantProducts(restaurantId, {
+  searchTerm = "", 
+  branchId = null, 
+  categoryId= null, 
+  range= [0,9]
+}={}){
+  const filters = {restaurant_id : restaurantId};
+  if(branchId)filters.branch_id = branchId;
+  if(categoryId)filters.category_id = categoryId;
+
+  const search = searchTerm ? ["name", searchTerm] :[];
+
+  const joins = {
+    branch: "branches(name)", 
+    category: "product_categories(name)"
+  }
+
+  return repos.products.findAll({filters,range, joins, search})
 }
 
 export function getRestaurantProductById(productId){
-  return repos.products.findById(productId)
+  const joins = {
+    branch: "branches(name)", 
+    category: "product_categories(name)"
+  }
+
+  return repos.products.findById(productId, joins)
 }
 
 export function getRestaurantBranches({filters = {restaurant_id :restaurantId}, count = true, range= [0,9]}){

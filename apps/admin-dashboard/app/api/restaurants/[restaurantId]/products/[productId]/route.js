@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import * as service from "../../../../../../src/restaurants/service"
-import { error } from "@/apps/admin-dashboard/src/common/errorHandler";
+import * as service from "../../../../../../src/restaurants/service";
+import { error } from "../../../../../../src/common/errorHandler";
 
 export async function GET(__, {params}){
   try {
