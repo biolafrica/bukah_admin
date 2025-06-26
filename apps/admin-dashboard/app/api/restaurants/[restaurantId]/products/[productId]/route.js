@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import * as service from "../../../../../../src/restaurants/service"
+import { error } from "@/apps/admin-dashboard/src/common/errorHandler";
 
 export async function GET(__, {params}){
   try {
@@ -15,8 +16,8 @@ export async function GET(__, {params}){
 
     return NextResponse.json({product}, {status: 201})
     
-  } catch (error) {
-    return NextResponse.json({error: 'Internal Server Error'}, {status: 500})
+  } catch (err) {
+    return error.handleServerError(err, "fetching restaurant product")
     
   }
   
