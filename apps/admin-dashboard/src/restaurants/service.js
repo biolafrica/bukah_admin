@@ -55,12 +55,41 @@ export function fetchRestaurantPlan(filters={restaurant_id :restaurantId}){
   return repos.plan.findAll({filters})
 }
 
-export function getRestaurantOrders({filters = {restaurant_id :restaurantId}, count = true, range= [0,9]}){
-  return repos.orders.findAll({filters,count, range})
+export function getRestaurantOrders(restaurantId,{
+  searchTerm = "",
+  branchId = null,
+  status = null,
+  channel= null,
+  dateRange = null,
+  range =[0,9]
+}){
+  const filters = {restaurant_id : restaurantId};
+  if (branchId) filters.branch_id = branchId
+  if (status) filters.status = status
+  if (channel) filters.order_channel = channel
+  if (dateRange) {
+    filters.placed_at = { start: dateRange.start, end: dateRange.end }
+  }
+
+  const joins ={
+    branch: 'branches(name)',
+    customer: 'customers(name)',
+    accepted_by: 'users(first_name)',
+  }
+
+  const search = searchTerm ? ['order_code', searchTerm] : [];
+
+  return repos.orders.findAll({filters,range, joins, search})
 }
 
 export function getRestaurantOrderById(orderId){
-  return repos.orders.findById(orderId)
+  const joins = {
+    branch: 'branches(name)',
+    customer: 'customers(name)',
+    accepted_by: 'users(first_name)',
+  }
+
+  return repos.orders.findById(orderId, joins)
 }
 
 export function getRestaurantProducts(restaurantId, {
