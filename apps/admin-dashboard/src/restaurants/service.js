@@ -25,7 +25,7 @@ export function getRestaurantUsers(restaurantId, {
   if (isActive !== null) filters.is_active = isActive
   if (role) filters.role = role
 
-  const search = searchTerm ? ["name", searchTerm] :[];
+  const search = searchTerm ? ['first_name', "last_name", searchTerm] : [];
 
   const  joins = { branch: 'branches(name, id)' }
 

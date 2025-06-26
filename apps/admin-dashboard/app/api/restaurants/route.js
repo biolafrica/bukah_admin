@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import * as service from "../../../src/restaurants/service"
-import { error } from "@/apps/admin-dashboard/src/common/errorHandler";
+import { error } from "../../../src/common/errorHandler";
+import { schemaUrlParser } from "@/apps/admin-dashboard/src/common/schemaParse";
 
 export async function GET(request){
   try {
-    const url = new URL(request.url)
-    const raw = Object.fromEntries(url.searchParams.entries())
+    const raw = schemaUrlParser(request)
     const {searchTerm, range} = raw;
 
     const data = await service.getRestaurants({searchTerm,range})
