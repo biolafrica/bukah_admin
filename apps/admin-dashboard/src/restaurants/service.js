@@ -25,8 +25,9 @@ export function addRestaurant(payload){
   return repos.restaurants.create(payload)
 }
 
-export function getRestaurant(filters={id :restaurantId}){
-  return repos.restaurants.findAll({filters})
+export function getRestaurants({searchTerm = "", range=[0,9]}){
+  const search = searchTerm ? ["name", searchTerm] :[];
+  return repos.restaurants.findAll({search, range})
 }
 
 export function addRestaurantPlan(payload){
@@ -45,7 +46,8 @@ export function getRestaurantOrderById(orderId){
   return repos.orders.findById(orderId)
 }
 
-export function getRestaurantProducts({filters = {restaurant_id :restaurantId}, count = true, range= [0,9]}){
+export function getRestaurantProducts(restaurantId, {count = true, range= [0,9]}={}){
+  const filters = {restaurant_id : restaurantId}
   return repos.products.findAll({filters, count, range})
 }
 
