@@ -137,11 +137,36 @@ export function getRestaurantCustomerById(customerId){
   return repos.customers.findById(customerId)
 }
 
-export function getRestaurantTransactions({filters = {restaurant_id :restaurantId}, count = true, range= [0,9]}){
-  return repos.finances.findAll({filters,count,range})
+export function getRestaurantTransactions(restaurantId, {
+  searchId = "", 
+  branchId = null, 
+  type= null,
+  dateRange= null,
+  method = null, 
+  range= [0,9]}){
+  const filters = {restaurant_id : restaurantId};
+  if (branchId) filters.branch_id = branchId
+  if (type) filters.transaction_type = type
+  if (method) filters.payment_method = method
+  if (dateRange) {
+    filters.created_at = { start: dateRange.start, end: dateRange.end }
+  }
+
+  const joins ={
+    branch: 'branches(name)',
+    order: 'orders(id)',
+  }
+
+  const search = searchId ? ['reference_id', searchId] : [];
+  
+  return repos.finances.findAll({filters,range, search, joins})
 }
 
 export function getRestaurantTransactionById(transactionId){
-  return repos.finances.findById(transactionId)
+  const joins = {
+    branch: 'branches(name)',
+    order: 'orders(id)',
+  }
+  return repos.finances.findById(transactionId, joins)
 }
 

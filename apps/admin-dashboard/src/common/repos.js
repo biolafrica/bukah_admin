@@ -7,7 +7,7 @@ export const repos = {
   customers : new BaseRepo("customers"),
   orders : new BaseRepo("orders"),
   branches : new BaseRepo("branches"),
-  finances : new BaseRepo("finances"),
+  finances : new BaseRepo("transactions"),
   products : new BaseRepo("products"),
   restaurants : new BaseRepo("restaurants"),
 }
