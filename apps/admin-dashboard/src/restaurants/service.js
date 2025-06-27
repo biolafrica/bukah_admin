@@ -13,6 +13,8 @@ export function addRestaurantOwner(payload){
   return repos.users.create(payload)
 }
 
+
+
 export function getRestaurantUsers(restaurantId, {
   searchTerm = "", 
   branchId = null, 
@@ -33,8 +35,8 @@ export function getRestaurantUsers(restaurantId, {
 }
 
 export function getRestaurantUserById(userId){
+  const  joins = { branch: 'branches(name, id)'}
 
-  const  joins = { branch: 'branches(name, id)' }
   return repos.users.findById(userId, joins)
 }
 
@@ -44,8 +46,16 @@ export function addRestaurant(payload){
 
 export function getRestaurants({searchTerm = "", range=[0,9]}){
   const search = searchTerm ? ["name", searchTerm] :[];
+
   return repos.restaurants.findAll({search, range})
 }
+
+export function getRestaurantById(restaurantId){
+  return repos.restaurants.findById(restaurantId)
+
+}
+
+
 
 export function addRestaurantPlan(payload){
   return repos.plan.create(payload)
@@ -64,6 +74,7 @@ export function getRestaurantOrders(restaurantId,{
   range =[0,9]
 }){
   const filters = {restaurant_id : restaurantId};
+  
   if (branchId) filters.branch_id = branchId
   if (status) filters.status = status
   if (channel) filters.order_channel = channel
@@ -82,6 +93,9 @@ export function getRestaurantOrders(restaurantId,{
   return repos.orders.findAll({filters,range, joins, search})
 }
 
+
+
+
 export function getRestaurantOrderById(orderId){
   const joins = {
     branch: 'branches(name)',
@@ -99,6 +113,7 @@ export function getRestaurantProducts(restaurantId, {
   range= [0,9]
 }={}){
   const filters = {restaurant_id : restaurantId};
+
   if(branchId)filters.branch_id = branchId;
   if(categoryId)filters.category_id = categoryId;
 
@@ -126,6 +141,7 @@ export function getRestaurantBranches(restaurantId, {
   range = [0, 9]
 }){
   const filters = {restaurant_id : restaurantId};
+
   const search = searchTerm ? ['name', searchTerm] : [];
   const joins = { branch: 'users(first_name,last_name, id)'}
 
@@ -134,6 +150,7 @@ export function getRestaurantBranches(restaurantId, {
 
 export function getRestaurantBranchById(branchId){
   const joins = { branch: 'users(first_name,last_name, id)'}
+  
   return repos.branches.findById(branchId, joins)
 }
 
@@ -143,6 +160,7 @@ export function getRestaurantCustomers(restaurantId,{searchTerm = '',
   range = [0, 9]
 }){
   const filters = {restaurant_id : restaurantId};
+
   if (type === 'registered') filters.is_registered = true
   if (type === 'guest') filters.is_registered = false
   if (dateRange) {
@@ -166,6 +184,7 @@ export function getRestaurantTransactions(restaurantId, {
   method = null, 
   range= [0,9]}){
   const filters = {restaurant_id : restaurantId};
+
   if (branchId) filters.branch_id = branchId
   if (type) filters.transaction_type = type
   if (method) filters.payment_method = method

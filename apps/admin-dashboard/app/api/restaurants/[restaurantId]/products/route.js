@@ -1,5 +1,5 @@
-import { makeGetListHandler } from "@/apps/admin-dashboard/src/common/routeHelpers";
-import { getRestaurantProducts } from "@/apps/admin-dashboard/src/restaurants/service";
+import { makeGetListHandler } from "../../../../../src/common/routeHelpers";
+import { getRestaurantProducts } from "../../../../../src/restaurants/service";
 
 export const GET = makeGetListHandler(
   getRestaurantProducts,

@@ -4,7 +4,7 @@ import { schemaUrlParser } from "./schemaParse"
 
 export function makeGetListHandler(fetcher, contextMessage) {
   return async function GET(request, { params }) {
-    const { restaurantId } = params
+    const { restaurantId } = await params
     if (!restaurantId) {
       return NextResponse.json(
         { error: 'restaurant ID is required' },
@@ -22,9 +22,11 @@ export function makeGetListHandler(fetcher, contextMessage) {
   }
 }
 
+
 export function makeGetByIdHandler(fetcher, paramName, contextMsg) {
   return async function GET(_, { params }) {
-    const id = params[paramName]
+    const ids = await params
+    const id = ids[paramName]
     if (!id) {
       return NextResponse.json(
         { error: `${paramName} is required` },
@@ -40,7 +42,7 @@ export function makeGetByIdHandler(fetcher, paramName, contextMsg) {
           { status: 404 }
         )
       }
-      // drop the 'Id' suffix to name the JSON key
+  
       const key = paramName.replace(/Id$/, '')
       return NextResponse.json({ [key]: entity }, { status: 200 })
     } catch (err) {
