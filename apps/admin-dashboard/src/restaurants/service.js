@@ -121,12 +121,20 @@ export function getRestaurantProductById(productId){
   return repos.products.findById(productId, joins)
 }
 
-export function getRestaurantBranches({filters = {restaurant_id :restaurantId}, count = true, range= [0,9]}){
-  return repos.branches.findAll({filters,count, range })
+export function getRestaurantBranches(restaurantId, {
+  searchTerm = "",
+  range = [0, 9]
+}){
+  const filters = {restaurant_id : restaurantId};
+  const search = searchTerm ? ['name', searchTerm] : [];
+  const joins = { branch: 'users(first_name,last_name, id)'}
+
+  return repos.branches.findAll({filters,search,range, joins })
 }
 
 export function getRestaurantBranchById(branchId){
-  return repos.branches.findById(branchId)
+  const joins = { branch: 'users(first_name,last_name, id)'}
+  return repos.branches.findById(branchId, joins)
 }
 
 export function getRestaurantCustomers(restaurantId,{searchTerm = '', 
