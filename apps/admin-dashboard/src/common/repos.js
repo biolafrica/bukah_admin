@@ -10,5 +10,6 @@ export const repos = {
   finances : new BaseRepo("transactions"),
   products : new BaseRepo("products"),
   restaurants : new BaseRepo("restaurants"),
-  plan : new BaseRepo("plans")
+  plan : new BaseRepo("plans"),
+  bill : new BaseRepo("billing_histories")
 }

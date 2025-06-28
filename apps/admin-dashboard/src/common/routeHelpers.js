@@ -50,3 +50,18 @@ export function makeGetByIdHandler(fetcher, paramName, contextMsg) {
     }
   }
 }
+
+export function makeUnfilteredGetListHandler(fetcher, contextMessage){
+  return async function GET(request) {
+
+    try {
+      const parsed = schemaUrlParser(request)
+      const data   = await fetcher(parsed)
+      return NextResponse.json({ data }, { status: 200 })
+    } catch (err) {
+      return error.handleServerError(err, contextMessage)
+    }
+
+  }
+
+}
