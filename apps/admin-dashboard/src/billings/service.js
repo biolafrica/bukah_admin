@@ -1,6 +1,12 @@
 import { repos } from "../common/repos";
 
-export function getBillings({restaurantId = null, dateRange= null, status=null, searchTerm =null, range= [0,9]}={}){
+export function getBillings({
+  restaurantId = null, 
+  dateRange= null, 
+  status=null, 
+  searchTerm =null, 
+  range= [0,9]
+}={}){
   const filters = {};
 
   if(restaurantId)filters.restaurant_id = restaurantId;
@@ -18,6 +24,7 @@ export function getBillings({restaurantId = null, dateRange= null, status=null, 
 
   return repos.bill.findAll({filters,search,joins,range})
 }
+
 
 export function getBillingById(billingId){
 

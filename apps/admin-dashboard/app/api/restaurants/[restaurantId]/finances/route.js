@@ -1,7 +1,9 @@
+import { querySchema } from "../../../../../src/restaurants/schema";
 import { getRestaurantTransactions} from "../../../../../src/restaurants/service";
-import { makeGetListHandler } from "@/apps/admin-dashboard/src/common/routeHelpers";
+import { makeGetListHandler } from "../../../../../src/common/routeHelpers";
 
 export const GET = makeGetListHandler(
   getRestaurantTransactions,
-  "fetching restaurants transactions" 
+  "fetching restaurants transactions",
+  querySchema.getTransaction 
 )

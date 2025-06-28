@@ -5,12 +5,45 @@ export function addRestaurantSettings(payload){
   return repos.settings.create(payload)
 };
 
-export function getRestaurantSetings(filters={restaurant_id :restaurantId}){
-  return repos.settings.findAll({filters})
+export async function getRestaurantSetings(restaurantId){
+  const filters = {restaurant_id : restaurantId}
+
+  try {
+    const [
+      settingsResult,
+      posResult,
+      terminalsResult,
+      notificationsResult,
+      tablesResult,
+      paymentGatewayResult,
+    ] = await Promise.all([
+      repos.settings.findAll({ filters, count: false }),
+      repos.pos.findAll({ filters }),
+      repos.terminal.findAll({ filters }),
+      repos.notification.findAll({ filters, count: false }),
+      repos.table.findAll({filters}),
+      repos.gateway.findAll({filters, count: false})
+    ])
+
+    return {
+      settings: settingsResult.data,
+      pos: posResult.data,
+      terminals: terminalsResult.data,
+      notifications: notificationsResult.data,
+      tables: tablesResult.data,
+      gateway: paymentGatewayResult.data,
+    }
+    
+  } catch (err) {
+    throw new Error(`Error loading restaurant config: ${err.message}`)
+    
+  }
+  
 }
 
 export function addRestaurantOwner(payload){
   return repos.users.create(payload)
+  // create notification autiomatically
 }
 
 
@@ -55,16 +88,6 @@ export function getRestaurantById(restaurantId){
 
 }
 
-
-
-export function addRestaurantPlan(payload){
-  return repos.plan.create(payload)
-}
-
-export function fetchRestaurantPlan(filters={restaurant_id :restaurantId}){
-  return repos.plan.findAll({filters})
-}
-
 export function getRestaurantOrders(restaurantId,{
   searchTerm = "",
   branchId = null,
@@ -92,9 +115,6 @@ export function getRestaurantOrders(restaurantId,{
 
   return repos.orders.findAll({filters,range, joins, search})
 }
-
-
-
 
 export function getRestaurantOrderById(orderId){
   const joins = {
@@ -154,7 +174,8 @@ export function getRestaurantBranchById(branchId){
   return repos.branches.findById(branchId, joins)
 }
 
-export function getRestaurantCustomers(restaurantId,{searchTerm = '', 
+export function getRestaurantCustomers(restaurantId,{
+  searchTerm = '', 
   type = null, 
   dateRange = null, 
   range = [0, 9]

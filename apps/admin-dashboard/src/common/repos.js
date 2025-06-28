@@ -11,5 +11,11 @@ export const repos = {
   products : new BaseRepo("products"),
   restaurants : new BaseRepo("restaurants"),
   plan : new BaseRepo("plans"),
-  bill : new BaseRepo("billing_histories")
+  bill : new BaseRepo("billing_histories"),
+  pos : new BaseRepo("pos_devices"),
+  terminal : new BaseRepo("terminals"),
+  table : new BaseRepo("tables"),
+  notification : new BaseRepo("notification_settings"),
+  gateway : new BaseRepo("payment_gateway"),
+
 }
