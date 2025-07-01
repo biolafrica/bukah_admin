@@ -19,7 +19,7 @@ export const createBusinessHour = z.object({
 })
 
 export const createRestaurant = z.object({
-  restaurant_id: z.string().uuid("Invalid Restaurant uuid"),
+  //restaurant_id: z.string().uuid("Invalid Restaurant uuid"),
   name: z.string().min(1,"Name is required"),
   address: z.string().min(1,"Address is required"),
   email: z.string().email("Invalid email"),

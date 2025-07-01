@@ -1,0 +1,1 @@
+import { createClient } from "@/apps/admin-dashboard/utils/supabase/client";

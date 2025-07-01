@@ -47,7 +47,6 @@ export function addRestaurantOwner(payload){
 }
 
 
-
 export function getRestaurantUsers(restaurantId, {
   searchTerm = "", 
   branchId = null, 
@@ -73,9 +72,15 @@ export function getRestaurantUserById(userId){
   return repos.users.findById(userId, joins)
 }
 
+
+
 export function addRestaurant(payload){
   return repos.restaurants.create(payload)
 }
+
+
+
+
 
 export function getRestaurants({searchTerm = "", range=[0,9]}){
   const search = searchTerm ? ["name", searchTerm] :[];

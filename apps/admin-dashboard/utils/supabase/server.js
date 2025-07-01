@@ -1,14 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 
-/*export async function createClient(req) {
+export async function createSupabaseServer(req) {
   const cookieStore = await cookies();
   // Get cookies from request
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  const supabase = createClient(supabaseUrl, supabaseServiceRoleKey, {
     global: {
       headers: {
         // You can set any headers here if needed
@@ -31,4 +31,4 @@ import { cookies } from 'next/headers';
   });
 
   return supabase;
-}*/
+}
