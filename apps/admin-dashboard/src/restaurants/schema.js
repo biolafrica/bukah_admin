@@ -28,8 +28,8 @@ export const createRestaurant = z.object({
   .length(11, "Phone must be exactly 11 digits")
   .regex(/^\d+$/, "Phone can only contain digits"),
 
-  tax_rate: z.number().min(0, "Tax rate must be >= 0").max(100, "Tax rate must be <= 0"),
-  service_charge: z.number().min(0, "Service charge must be >= 0"),
+  tax_rate: z.number().min(0, "Tax rate must be >= 0").max(100, "Tax rate must be <= 0").optional(),
+  service_charge: z.number().min(0, "Service charge must be >= 0").optional(),
 
   description: z.string().optional(),
   social_links: createSocialLinks.optional(),
