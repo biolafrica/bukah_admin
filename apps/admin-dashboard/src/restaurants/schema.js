@@ -18,6 +18,24 @@ export const createBusinessHour = z.object({
   is_active: z.boolean(), 
 })
 
+export const createCustomerNotifications = z.object({
+  order_confirmation : z.boolean().optional(),
+  order_completed : z.boolean().optional(),
+  payment_refund : z.boolean().optional(),
+  order_cancelled : z.boolean().optional(),
+  pickup_confirmation : z.boolean().optional(),
+  customer_registration : z.boolean().optional(),
+  reservation_confirmation : z.boolean().optional()
+
+}).partial()
+
+export const createStaffNotifications = z.object({
+  account_creation : z.boolean().optional(),
+  password_reset_request: z.boolean().optional(),
+  password_change: z.boolean().optional()
+
+}).partial()
+
 export const createRestaurant = z.object({
   //restaurant_id: z.string().uuid("Invalid Restaurant uuid"),
   name: z.string().min(1,"Name is required"),
@@ -41,6 +59,9 @@ export const createRestaurant = z.object({
 
   primary_color: z.string().regex(/^#([0-9A-Fa-f]{6})$/, "Invalid HEX color").optional(),
   secondary_color: z.string().regex(/^#([0-9A-Fa-f]{6})$/, "Invalid HEX color").optional(),
+
+  customer_notifications:createCustomerNotifications.optional(),
+  staff_notifications: createStaffNotifications.optional()
 
 })
 
